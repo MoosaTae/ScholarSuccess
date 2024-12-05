@@ -52,7 +52,7 @@ class ScopusDataScraper:
         """
         Process individual file and enrich data
         """
-        for row in data[:1]:
+        for row in data:
             try:
                 url = f"https://www.scopus.com/gateway/doc-details/documents/{row['eid']}"
                 response = requests.get(url, headers=self.headers)
