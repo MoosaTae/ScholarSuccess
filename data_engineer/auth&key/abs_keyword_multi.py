@@ -1,9 +1,11 @@
-import os
 import json
-import requests
+import os
 import threading
-from typing import List, Dict
+from typing import Dict, List
+
+import requests
 from tqdm.auto import tqdm
+
 
 class ScopusDataScraper:
     def __init__(self, base_dataset_path: str, output_path: str, headers: Dict[str, str]):
@@ -22,35 +24,46 @@ class ScopusDataScraper:
         paths = paths[6:]
         print(f"Found paths: {paths}")
 
+        all_files = []
+        for path in paths:
+            full_path = os.path.join(self.base_dataset_path, path)
+            files = os.listdir(full_path)
+            for file in files:
+                all_files.append((path, file))
+                
         threads = []
         progress_bar = tqdm(total=len(paths), desc="Processing paths")
-        for path in paths:
-            thread = threading.Thread(target=self._process_path, args=(path, progress_bar))
+        
+        chunk_size = max(1, len(all_files) // num_threads)
+        file_chunks = [all_files[i:i + chunk_size] for i in range(0, len(all_files), chunk_size)]
+        for chunk in file_chunks:
+            thread = threading.Thread(target=self._process_file_chunk, args=(chunk, progress_bar))
             thread.start()
             threads.append(thread)
 
-            if len(threads) >= num_threads:
-                for t in threads:
-                    t.join()
-                threads = []
-
         for t in threads:
             t.join()
+            
         progress_bar.close()
 
-    def _process_path(self, path: str, progress_bar):
+    def _process_file_chunk(self, files: List[tuple], progress_bar):
         """
-        Process individual path
+        Process a chunk of files
         """
-        full_path = os.path.join(self.base_dataset_path, path)
-        files = os.listdir(full_path)
-        
-        for file in files:
-            file_path = os.path.join(full_path, file)
-            with open(file_path, 'r') as f:
-                data = json.load(f)
+        for path, file in files:
+            try:
+                full_path = os.path.join(self.base_dataset_path, path, file)
+                print(f"Processing file: {full_path}")
+                
+                with open(full_path, 'r') as f:
+                    data = json.load(f)
+                
                 self._process_file(file, data)
-        progress_bar.update(1)
+                progress_bar.update(1)
+                
+            except Exception as e:
+                print(f"Error processing file {file} in path {path}: {e}")
+
 
     def _process_file(self, file: str, data: List[Dict]):
         """
@@ -60,11 +73,13 @@ class ScopusDataScraper:
             try:
                 url = f"https://www.scopus.com/gateway/doc-details/documents/{row['eid']}"
                 response = requests.get(url, headers=self.headers)
+                response = response.json()
+                
                 if response.status_code != 200 :
                     print("++++++++fail get +++++")
                 with self.lock:
-                    row['abstract'] = response.json().get('abstract', [None])[0] if response.json().get('abstract') else None
-                    row['author-keyword'] = response.json().get('authorKeywords', [])
+                    row['abstract'] = response.get('abstract', [None])[0] if response.get('abstract') else None
+                    row['author-keyword'] = response.get('authorKeywords', [])
                 
                 output_file = os.path.join(
                     self.output_path, 
@@ -85,7 +100,7 @@ def main():
     }
     
     scraper = ScopusDataScraper(BASE_DATASET_PATH, OUTPUT_PATH, HEADERS)
-    scraper.process_paths(num_threads=10)  
+    scraper.process_paths(num_threads=24)  
 
 if __name__ == "__main__":
     main()
