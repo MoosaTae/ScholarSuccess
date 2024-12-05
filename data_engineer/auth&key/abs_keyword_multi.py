@@ -21,7 +21,7 @@ class ScopusDataScraper:
         print(f"Found paths: {paths}")
 
         threads = []
-        for path in paths[1:6]:
+        for path in paths[6:10]:
             thread = threading.Thread(target=self._process_path, args=(path,))
             thread.start()
             threads.append(thread)
