@@ -73,13 +73,15 @@ class ScopusDataScraper:
             try:
                 url = f"https://www.scopus.com/gateway/doc-details/documents/{row['eid']}"
                 response = requests.get(url, headers=self.headers)
-                response = response.json()
                 
-                if response.status_code != 200 :
-                    print("++++++++fail get +++++")
+                if response.status_code != 200:
+                    print(f"something went wrong with {url} - Status code: {response.status_code}")
+                    continue
+                
+                response_json = response.json()
                 with self.lock:
-                    row['abstract'] = response.get('abstract', [None])[0] if response.get('abstract') else None
-                    row['author-keyword'] = response.get('authorKeywords', [])
+                    row['abstract'] = response_json.get('abstract', [None])[0] if response_json.get('abstract') else None
+                    row['author-keyword'] = response_json.get('authorKeywords', [])
                 
                 output_file = os.path.join(
                     self.output_path, 
