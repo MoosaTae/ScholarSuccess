@@ -1,0 +1,13 @@
+# Ignore data files
+data/scopus/*
+
+# Ignore all log files
+*.log
+*.err
+*.out
+
+# Ignore python cache files
+__pycache__/
+
+.env
+data/**
