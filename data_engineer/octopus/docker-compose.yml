@@ -1,0 +1,12 @@
+version: '3.8'
+# Local Cassandra instance for development
+services:
+  cassandra:
+    image: cassandra:4.1
+    ports:
+      - "9042:9042"
+    volumes:
+      - cassandra_data:/var/lib/cassandra
+
+volumes:
+  cassandra_data:
