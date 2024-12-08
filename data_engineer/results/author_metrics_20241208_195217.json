@@ -1,0 +1,1080 @@
+[
+  {
+    "auid": "58156184800",
+    "author_stat": {
+      "citations": 6,
+      "documents": 2,
+      "h_index": 1,
+      "co_authors_count": 6,
+      "cited_by_count": 6,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "7403921091",
+    "author_stat": {
+      "citations": 16629,
+      "documents": 348,
+      "h_index": 68,
+      "co_authors_count": 1535,
+      "cited_by_count": 12881,
+      "preprints_count": 4
+    }
+  },
+  {
+    "auid": "57198436476",
+    "author_stat": {
+      "citations": 289,
+      "documents": 12,
+      "h_index": 7,
+      "co_authors_count": 76,
+      "cited_by_count": 272,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "35485617000",
+    "author_stat": {
+      "citations": 97,
+      "documents": 47,
+      "h_index": 5,
+      "co_authors_count": 64,
+      "cited_by_count": 93,
+      "preprints_count": 1
+    }
+  },
+  {
+    "auid": "56479151300",
+    "author_stat": {
+      "citations": 239,
+      "documents": 9,
+      "h_index": 2,
+      "co_authors_count": 502,
+      "cited_by_count": 238,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "58033988700",
+    "author_stat": {
+      "citations": 3,
+      "documents": 3,
+      "h_index": 1,
+      "co_authors_count": 11,
+      "cited_by_count": 3,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "35338507000",
+    "author_stat": {
+      "citations": 161,
+      "documents": 8,
+      "h_index": 6,
+      "co_authors_count": 21,
+      "cited_by_count": 150,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "23003393800",
+    "author_stat": {
+      "citations": 1696,
+      "documents": 35,
+      "h_index": 20,
+      "co_authors_count": 151,
+      "cited_by_count": 1541,
+      "preprints_count": 3
+    }
+  },
+  {
+    "auid": "56465220700",
+    "author_stat": {
+      "citations": 0,
+      "documents": 1,
+      "h_index": 0,
+      "co_authors_count": 1,
+      "cited_by_count": 0,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "36141186600",
+    "author_stat": {
+      "citations": 1028,
+      "documents": 28,
+      "h_index": 18,
+      "co_authors_count": 148,
+      "cited_by_count": 890,
+      "preprints_count": 1
+    }
+  },
+  {
+    "auid": "57219656119",
+    "author_stat": {
+      "citations": 13,
+      "documents": 5,
+      "h_index": 2,
+      "co_authors_count": 24,
+      "cited_by_count": 13,
+      "preprints_count": 5
+    }
+  },
+  {
+    "auid": "57219531550",
+    "author_stat": {
+      "citations": 21,
+      "documents": 3,
+      "h_index": 2,
+      "co_authors_count": 14,
+      "cited_by_count": 15,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "57200595839",
+    "author_stat": {
+      "citations": 1414,
+      "documents": 46,
+      "h_index": 17,
+      "co_authors_count": 133,
+      "cited_by_count": 1140,
+      "preprints_count": 2
+    }
+  },
+  {
+    "auid": "57217767576",
+    "author_stat": {
+      "citations": 405,
+      "documents": 21,
+      "h_index": 11,
+      "co_authors_count": 339,
+      "cited_by_count": 360,
+      "preprints_count": 3
+    }
+  },
+  {
+    "auid": "57215536519",
+    "author_stat": {
+      "citations": 1,
+      "documents": 4,
+      "h_index": 1,
+      "co_authors_count": 17,
+      "cited_by_count": 1,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "54911514100",
+    "author_stat": {
+      "citations": 864,
+      "documents": 29,
+      "h_index": 16,
+      "co_authors_count": 108,
+      "cited_by_count": 824,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "27367870000",
+    "author_stat": {
+      "citations": 1441,
+      "documents": 30,
+      "h_index": 20,
+      "co_authors_count": 124,
+      "cited_by_count": 1290,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "56478347300",
+    "author_stat": {
+      "citations": 332,
+      "documents": 18,
+      "h_index": 9,
+      "co_authors_count": 210,
+      "cited_by_count": 329,
+      "preprints_count": 3
+    }
+  },
+  {
+    "auid": "16477803700",
+    "author_stat": {
+      "citations": 15,
+      "documents": 21,
+      "h_index": 2,
+      "co_authors_count": 26,
+      "cited_by_count": 14,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "55819794600",
+    "author_stat": {
+      "citations": 94,
+      "documents": 11,
+      "h_index": 7,
+      "co_authors_count": 69,
+      "cited_by_count": 94,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "57210113404",
+    "author_stat": {
+      "citations": 3,
+      "documents": 2,
+      "h_index": 1,
+      "co_authors_count": 4,
+      "cited_by_count": 3,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "56106347900",
+    "author_stat": {
+      "citations": 112,
+      "documents": 13,
+      "h_index": 6,
+      "co_authors_count": 21,
+      "cited_by_count": 91,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "58293195500",
+    "author_stat": {
+      "citations": 1208,
+      "documents": 58,
+      "h_index": 17,
+      "co_authors_count": 944,
+      "cited_by_count": 1166,
+      "preprints_count": 1
+    }
+  },
+  {
+    "auid": "58543808500",
+    "author_stat": {
+      "citations": 0,
+      "documents": 0,
+      "h_index": 0,
+      "co_authors_count": 0,
+      "cited_by_count": 0,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "7202086420",
+    "author_stat": {
+      "citations": 17541,
+      "documents": 148,
+      "h_index": 57,
+      "co_authors_count": 2619,
+      "cited_by_count": 12245,
+      "preprints_count": 4
+    }
+  },
+  {
+    "auid": "58388617100",
+    "author_stat": {
+      "citations": 540,
+      "documents": 43,
+      "h_index": 15,
+      "co_authors_count": 367,
+      "cited_by_count": 520,
+      "preprints_count": 5
+    }
+  },
+  {
+    "auid": "55342610900",
+    "author_stat": {
+      "citations": 543,
+      "documents": 13,
+      "h_index": 10,
+      "co_authors_count": 119,
+      "cited_by_count": 521,
+      "preprints_count": 1
+    }
+  },
+  {
+    "auid": "57419071300",
+    "author_stat": {
+      "citations": 85679,
+      "documents": 1292,
+      "h_index": 131,
+      "co_authors_count": 16881,
+      "cited_by_count": 29237,
+      "preprints_count": 668
+    }
+  },
+  {
+    "auid": "57411167000",
+    "author_stat": {
+      "citations": 36,
+      "documents": 4,
+      "h_index": 3,
+      "co_authors_count": 15,
+      "cited_by_count": 34,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "55349281800",
+    "author_stat": {
+      "citations": 161,
+      "documents": 9,
+      "h_index": 4,
+      "co_authors_count": 39,
+      "cited_by_count": 141,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "26033064800",
+    "author_stat": {
+      "citations": 12887,
+      "documents": 219,
+      "h_index": 65,
+      "co_authors_count": 148,
+      "cited_by_count": 8086,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "7006164648",
+    "author_stat": {
+      "citations": 2677,
+      "documents": 530,
+      "h_index": 24,
+      "co_authors_count": 48,
+      "cited_by_count": 1233,
+      "preprints_count": 3
+    }
+  },
+  {
+    "auid": "57203972579",
+    "author_stat": {
+      "citations": 316,
+      "documents": 13,
+      "h_index": 12,
+      "co_authors_count": 33,
+      "cited_by_count": 277,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "57087053500",
+    "author_stat": {
+      "citations": 230,
+      "documents": 18,
+      "h_index": 7,
+      "co_authors_count": 52,
+      "cited_by_count": 214,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "57250938500",
+    "author_stat": {
+      "citations": 7,
+      "documents": 1,
+      "h_index": 1,
+      "co_authors_count": 2,
+      "cited_by_count": 7,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "54402980800",
+    "author_stat": {
+      "citations": 30,
+      "documents": 4,
+      "h_index": 2,
+      "co_authors_count": 5,
+      "cited_by_count": 28,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "16425752600",
+    "author_stat": {
+      "citations": 1787,
+      "documents": 74,
+      "h_index": 25,
+      "co_authors_count": 313,
+      "cited_by_count": 1630,
+      "preprints_count": 1
+    }
+  },
+  {
+    "auid": "57224322523",
+    "author_stat": {
+      "citations": 1767,
+      "documents": 8,
+      "h_index": 6,
+      "co_authors_count": 5610,
+      "cited_by_count": 1366,
+      "preprints_count": 1
+    }
+  },
+  {
+    "auid": "35392598100",
+    "author_stat": {
+      "citations": 4293,
+      "documents": 286,
+      "h_index": 32,
+      "co_authors_count": 433,
+      "cited_by_count": 3292,
+      "preprints_count": 5
+    }
+  },
+  {
+    "auid": "57211998840",
+    "author_stat": {
+      "citations": 294,
+      "documents": 7,
+      "h_index": 6,
+      "co_authors_count": 98,
+      "cited_by_count": 276,
+      "preprints_count": 2
+    }
+  },
+  {
+    "auid": "58793152100",
+    "author_stat": {
+      "citations": 0,
+      "documents": 1,
+      "h_index": 0,
+      "co_authors_count": 0,
+      "cited_by_count": 0,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "12788136300",
+    "author_stat": {
+      "citations": 1960,
+      "documents": 75,
+      "h_index": 26,
+      "co_authors_count": 161,
+      "cited_by_count": 1583,
+      "preprints_count": 1
+    }
+  },
+  {
+    "auid": "57221110681",
+    "author_stat": {
+      "citations": 0,
+      "documents": 1,
+      "h_index": 0,
+      "co_authors_count": 0,
+      "cited_by_count": 0,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "26040510000",
+    "author_stat": {
+      "citations": 386,
+      "documents": 28,
+      "h_index": 9,
+      "co_authors_count": 106,
+      "cited_by_count": 375,
+      "preprints_count": 2
+    }
+  },
+  {
+    "auid": "56605033800",
+    "author_stat": {
+      "citations": 379,
+      "documents": 41,
+      "h_index": 11,
+      "co_authors_count": 185,
+      "cited_by_count": 352,
+      "preprints_count": 2
+    }
+  },
+  {
+    "auid": "6602986083",
+    "author_stat": {
+      "citations": 316,
+      "documents": 62,
+      "h_index": 9,
+      "co_authors_count": 241,
+      "cited_by_count": 287,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "48861006300",
+    "author_stat": {
+      "citations": 109,
+      "documents": 12,
+      "h_index": 6,
+      "co_authors_count": 21,
+      "cited_by_count": 100,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "36660690600",
+    "author_stat": {
+      "citations": 977,
+      "documents": 49,
+      "h_index": 17,
+      "co_authors_count": 77,
+      "cited_by_count": 909,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "56906927400",
+    "author_stat": {
+      "citations": 89,
+      "documents": 9,
+      "h_index": 5,
+      "co_authors_count": 55,
+      "cited_by_count": 87,
+      "preprints_count": 1
+    }
+  },
+  {
+    "auid": "50861227300",
+    "author_stat": {
+      "citations": 3302,
+      "documents": 63,
+      "h_index": 27,
+      "co_authors_count": 118,
+      "cited_by_count": 2907,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "7004959561",
+    "author_stat": {
+      "citations": 99555,
+      "documents": 377,
+      "h_index": 128,
+      "co_authors_count": 11004,
+      "cited_by_count": 82505,
+      "preprints_count": 27
+    }
+  },
+  {
+    "auid": "57226218772",
+    "author_stat": {
+      "citations": 3043,
+      "documents": 75,
+      "h_index": 20,
+      "co_authors_count": 363,
+      "cited_by_count": 2467,
+      "preprints_count": 3
+    }
+  },
+  {
+    "auid": "58142635200",
+    "author_stat": {
+      "citations": 5479,
+      "documents": 116,
+      "h_index": 43,
+      "co_authors_count": 4816,
+      "cited_by_count": 3899,
+      "preprints_count": 12
+    }
+  },
+  {
+    "auid": "55601654900",
+    "author_stat": {
+      "citations": 82,
+      "documents": 30,
+      "h_index": 5,
+      "co_authors_count": 42,
+      "cited_by_count": 79,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "56507108300",
+    "author_stat": {
+      "citations": 3,
+      "documents": 1,
+      "h_index": 1,
+      "co_authors_count": 3,
+      "cited_by_count": 3,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "57203396608",
+    "author_stat": {
+      "citations": 594,
+      "documents": 50,
+      "h_index": 12,
+      "co_authors_count": 1793,
+      "cited_by_count": 374,
+      "preprints_count": 33
+    }
+  },
+  {
+    "auid": "36146772900",
+    "author_stat": {
+      "citations": 471,
+      "documents": 36,
+      "h_index": 11,
+      "co_authors_count": 158,
+      "cited_by_count": 395,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "57200793806",
+    "author_stat": {
+      "citations": 291,
+      "documents": 12,
+      "h_index": 6,
+      "co_authors_count": 38,
+      "cited_by_count": 290,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "57211868350",
+    "author_stat": {
+      "citations": 22,
+      "documents": 23,
+      "h_index": 3,
+      "co_authors_count": 40,
+      "cited_by_count": 19,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "7103399994",
+    "author_stat": {
+      "citations": 292,
+      "documents": 31,
+      "h_index": 10,
+      "co_authors_count": 209,
+      "cited_by_count": 285,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "57011339900",
+    "author_stat": {
+      "citations": 84,
+      "documents": 23,
+      "h_index": 5,
+      "co_authors_count": 59,
+      "cited_by_count": 79,
+      "preprints_count": 1
+    }
+  },
+  {
+    "auid": "58176854000",
+    "author_stat": {
+      "citations": 13,
+      "documents": 2,
+      "h_index": 2,
+      "co_authors_count": 12,
+      "cited_by_count": 10,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "55177611200",
+    "author_stat": {
+      "citations": 132,
+      "documents": 47,
+      "h_index": 7,
+      "co_authors_count": 9,
+      "cited_by_count": 94,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "55556609600",
+    "author_stat": {
+      "citations": 1301,
+      "documents": 46,
+      "h_index": 19,
+      "co_authors_count": 289,
+      "cited_by_count": 1137,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "57850683000",
+    "author_stat": {
+      "citations": 58,
+      "documents": 10,
+      "h_index": 5,
+      "co_authors_count": 56,
+      "cited_by_count": 58,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "6508150454",
+    "author_stat": {
+      "citations": 1818,
+      "documents": 54,
+      "h_index": 24,
+      "co_authors_count": 86,
+      "cited_by_count": 1573,
+      "preprints_count": 1
+    }
+  },
+  {
+    "auid": "58368854500",
+    "author_stat": {
+      "citations": 84144,
+      "documents": 1357,
+      "h_index": 124,
+      "co_authors_count": 18376,
+      "cited_by_count": 29057,
+      "preprints_count": 636
+    }
+  },
+  {
+    "auid": "57207904753",
+    "author_stat": {
+      "citations": 15418,
+      "documents": 529,
+      "h_index": 64,
+      "co_authors_count": 12841,
+      "cited_by_count": 6286,
+      "preprints_count": 645
+    }
+  },
+  {
+    "auid": "57008838100",
+    "author_stat": {
+      "citations": 183,
+      "documents": 25,
+      "h_index": 7,
+      "co_authors_count": 89,
+      "cited_by_count": 133,
+      "preprints_count": 1
+    }
+  },
+  {
+    "auid": "6504831231",
+    "author_stat": {
+      "citations": 1013,
+      "documents": 46,
+      "h_index": 13,
+      "co_authors_count": 154,
+      "cited_by_count": 974,
+      "preprints_count": 2
+    }
+  },
+  {
+    "auid": "55463373300",
+    "author_stat": {
+      "citations": 15233,
+      "documents": 222,
+      "h_index": 50,
+      "co_authors_count": 7013,
+      "cited_by_count": 10560,
+      "preprints_count": 134
+    }
+  },
+  {
+    "auid": "56645731400",
+    "author_stat": {
+      "citations": 26,
+      "documents": 5,
+      "h_index": 2,
+      "co_authors_count": 5,
+      "cited_by_count": 26,
+      "preprints_count": 1
+    }
+  },
+  {
+    "auid": "58561342600",
+    "author_stat": {
+      "citations": 1,
+      "documents": 1,
+      "h_index": 1,
+      "co_authors_count": 5,
+      "cited_by_count": 1,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "6602539286",
+    "author_stat": {
+      "citations": 4330,
+      "documents": 98,
+      "h_index": 29,
+      "co_authors_count": 778,
+      "cited_by_count": 3599,
+      "preprints_count": 2
+    }
+  },
+  {
+    "auid": "6508003093",
+    "author_stat": {
+      "citations": 7376,
+      "documents": 140,
+      "h_index": 39,
+      "co_authors_count": 1776,
+      "cited_by_count": 6598,
+      "preprints_count": 4
+    }
+  },
+  {
+    "auid": "58475912800",
+    "author_stat": {
+      "citations": 39630,
+      "documents": 701,
+      "h_index": 93,
+      "co_authors_count": 11541,
+      "cited_by_count": 14119,
+      "preprints_count": 399
+    }
+  },
+  {
+    "auid": "7201951875",
+    "author_stat": {
+      "citations": 1998,
+      "documents": 112,
+      "h_index": 25,
+      "co_authors_count": 235,
+      "cited_by_count": 1291,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "9634084700",
+    "author_stat": {
+      "citations": 1934,
+      "documents": 71,
+      "h_index": 25,
+      "co_authors_count": 210,
+      "cited_by_count": 1120,
+      "preprints_count": 1
+    }
+  },
+  {
+    "auid": "56681883900",
+    "author_stat": {
+      "citations": 41644,
+      "documents": 866,
+      "h_index": 97,
+      "co_authors_count": 13050,
+      "cited_by_count": 14445,
+      "preprints_count": 636
+    }
+  },
+  {
+    "auid": "6506557949",
+    "author_stat": {
+      "citations": 2924,
+      "documents": 134,
+      "h_index": 32,
+      "co_authors_count": 740,
+      "cited_by_count": 2502,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "12783249700",
+    "author_stat": {
+      "citations": 328,
+      "documents": 31,
+      "h_index": 12,
+      "co_authors_count": 42,
+      "cited_by_count": 314,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "58862400900",
+    "author_stat": {
+      "citations": 31,
+      "documents": 8,
+      "h_index": 3,
+      "co_authors_count": 32,
+      "cited_by_count": 30,
+      "preprints_count": 1
+    }
+  },
+  {
+    "auid": "36555276900",
+    "author_stat": {
+      "citations": 426,
+      "documents": 74,
+      "h_index": 10,
+      "co_authors_count": 91,
+      "cited_by_count": 269,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "57113081400",
+    "author_stat": {
+      "citations": 1466,
+      "documents": 47,
+      "h_index": 16,
+      "co_authors_count": 703,
+      "cited_by_count": 1173,
+      "preprints_count": 1
+    }
+  },
+  {
+    "auid": "57193697134",
+    "author_stat": {
+      "citations": 17097,
+      "documents": 325,
+      "h_index": 71,
+      "co_authors_count": 7741,
+      "cited_by_count": 6732,
+      "preprints_count": 313
+    }
+  },
+  {
+    "auid": "55802562700",
+    "author_stat": {
+      "citations": 267,
+      "documents": 55,
+      "h_index": 6,
+      "co_authors_count": 110,
+      "cited_by_count": 260,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "55463729700",
+    "author_stat": {
+      "citations": 251,
+      "documents": 40,
+      "h_index": 8,
+      "co_authors_count": 4,
+      "cited_by_count": 221,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "22950981300",
+    "author_stat": {
+      "citations": 5795,
+      "documents": 259,
+      "h_index": 41,
+      "co_authors_count": 443,
+      "cited_by_count": 4448,
+      "preprints_count": 3
+    }
+  },
+  {
+    "auid": "57813289700",
+    "author_stat": {
+      "citations": 3,
+      "documents": 1,
+      "h_index": 1,
+      "co_authors_count": 6,
+      "cited_by_count": 3,
+      "preprints_count": 1
+    }
+  },
+  {
+    "auid": "7201704229",
+    "author_stat": {
+      "citations": 30194,
+      "documents": 147,
+      "h_index": 65,
+      "co_authors_count": 426,
+      "cited_by_count": 22505,
+      "preprints_count": 1
+    }
+  },
+  {
+    "auid": "57214076535",
+    "author_stat": {
+      "citations": 249,
+      "documents": 6,
+      "h_index": 2,
+      "co_authors_count": 555,
+      "cited_by_count": 249,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "57267293800",
+    "author_stat": {
+      "citations": 58,
+      "documents": 5,
+      "h_index": 3,
+      "co_authors_count": 15,
+      "cited_by_count": 36,
+      "preprints_count": 1
+    }
+  },
+  {
+    "auid": "57195140768",
+    "author_stat": {
+      "citations": 11904,
+      "documents": 148,
+      "h_index": 42,
+      "co_authors_count": 493,
+      "cited_by_count": 9951,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "35367421000",
+    "author_stat": {
+      "citations": 91,
+      "documents": 38,
+      "h_index": 6,
+      "co_authors_count": 46,
+      "cited_by_count": 91,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "57187445500",
+    "author_stat": {
+      "citations": 1446,
+      "documents": 123,
+      "h_index": 21,
+      "co_authors_count": 150,
+      "cited_by_count": 1218,
+      "preprints_count": 3
+    }
+  },
+  {
+    "auid": "57208258998",
+    "author_stat": {
+      "citations": 85,
+      "documents": 12,
+      "h_index": 5,
+      "co_authors_count": 33,
+      "cited_by_count": 77,
+      "preprints_count": 0
+    }
+  },
+  {
+    "auid": "55772496000",
+    "author_stat": {
+      "citations": 611,
+      "documents": 57,
+      "h_index": 13,
+      "co_authors_count": 47,
+      "cited_by_count": 512,
+      "preprints_count": 3
+    }
+  },
+  {
+    "auid": "57702216000",
+    "author_stat": {
+      "citations": 558,
+      "documents": 122,
+      "h_index": 12,
+      "co_authors_count": 6972,
+      "cited_by_count": 423,
+      "preprints_count": 98
+    }
+  }
+]
