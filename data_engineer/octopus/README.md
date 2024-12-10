@@ -5,8 +5,7 @@ Octopus Analysis is a data analysis project designed to process and analyze Scop
 ## Table of Contents
 
 - [Installation](#installation)
-- [Usage](#usage)
-- [Configuration](#configuration)
+- [usage_and_configuration](#usage_and_configuration)
 ## Installation
 
 1. **Clone the Repository**:
@@ -21,37 +20,27 @@ Octopus Analysis is a data analysis project designed to process and analyze Scop
    ```
 3. **Add data**
   Copy paste your `scopus` data folder into the `/data/` directory
-4. **Optional ( If you want to develop on local )**
+   ```
+      |-- data
+      |   |-- scopus
+      |   `-- scrape
+   ```
+4. **Optional ( If you want to develop on local)**
    ```bash
    docker compose up -d
    ```
-   and use this .env
-   ```
-   DB_HOST=localhost
-   DB_PORT=9042
-   # path to your scopus data
-   SCOPUS_BASE_PATH="/Users/punpun/Documents/Personal/cedt/dsde-project/octopus-analysis/data/scopus"
-   ```
 
-## Usage
-
-1. **Configure Environment Variables**:
-   - Create a `.env` file in the root directory with the necessary environment variables. Refer to the [Configuration](#configuration) section for details.
+## Usage_and_Configuration
+1. copy the [.env.example](.env.example) to `.env` and update path of your scopus data
+   ```
+   DB_HOST="localhost"
+   DB_PORT="9042"
+   SCOPUS_DATA_PATH="/Users/punpun/Documents/Personal/cedt/dsde-project/octopus-analysis/data/scopus"
+   SCOPUS_SCRAPE_PATH="/Users/punpun/Documents/Personal/cedt/dsde-project/octopus-analysis/data/scrape/"
+   ```
 
 2. **Run the Application**:
    ```bash
    python main.py
    ```
    This will read and stream data into your Cassandra database.
-
-
-
-## Configuration
-
-The application uses environment variables for configuration. Create a `.env` file in the root directory with the following variables:
-
-```env
-DB_HOST="cassandra-host"
-DB_PORT="cassandra-port"
-SCOPUS_DATA_PATH="/Users/punpun/Documents/Personal/cedt/dsde-project/octopus-analysis/data/scopus"
-```
