@@ -8,6 +8,78 @@ import requests
 url = "http://localhost:8000/predict"
 
 
+def request_inference(title, abstract, ref_count):
+    payload = {
+        "title": title,
+        "abstract": abstract,
+        "ref_count": ref_count,
+    }
+    try:
+        response = requests.post(
+            url,
+            headers={
+                "accept": "application/json",
+                "Content-Type": "application/json",
+            },
+            json=payload,
+        )
+        response.raise_for_status()
+        if response.status_code == 200:
+            return {"success": True, "data": response.json()}
+
+    except requests.exceptions.RequestException as e:
+        print(e)
+        return {
+            "success": False,
+            "message": str(e),
+            "status_code": response.status_code,
+        }
+
+
+def create_probability_bar_chart(probabilities):
+    """Create a bar chart showing prediction probabilities."""
+    fig = go.Figure(
+        data=[
+            go.Bar(
+                x=["Unsuccessful (0)", "Successful (1)"],
+                y=[probabilities["0"], probabilities["1"]],
+                marker_color=["#ff9999", "#99ff99"],
+            )
+        ]
+    )
+
+    fig.update_layout(
+        title="Prediction Probabilities",
+        yaxis_title="Probability",
+        yaxis_range=[0, 1],
+        showlegend=False,
+    )
+    return fig
+
+
+def create_gauge_chart(probability):
+    """Create a gauge chart showing success probability."""
+    fig = go.Figure(
+        go.Indicator(
+            mode="gauge+number",
+            value=probability * 100,
+            title={"text": "Success Probability"},
+            gauge={
+                "axis": {"range": [0, 100]},
+                "bar": {"color": "darkgreen"},
+                "steps": [
+                    {"range": [0, 33], "color": "#ff9999"},
+                    {"range": [33, 66], "color": "#ffff99"},
+                    {"range": [66, 100], "color": "#99ff99"},
+                ],
+            },
+        )
+    )
+
+    fig.update_layout(height=300)
+    return fig
+
+
 st.title("Scholar Success Rate Prediction - API Request")
 
 # Input Fields for API Request
@@ -18,62 +90,40 @@ ref_count = st.number_input("Reference Count", step=1)
 
 
 # Make the POST request on button click
-if st.button("Submit Request"):
-    payload = {
-        "title": title,
-        "abstract": abstract,
-        "ref_count": ref_count,
-    }
+if st.button("Predict"):
+    response_data = request_inference(title, abstract, ref_count)
 
-    try:
-        # Send POST request
-        response = requests.post(
-            url,
-            headers={
-                "accept": "application/json",
-                "Content-Type": "application/json",
-            },
-            json=payload,
+    st.subheader("Response Visualization")
+
+    # Display response
+    if response_data["success"]:
+        st.success("Request Successful!")
+        data = response_data["data"]
+        probabilities = data["probability"]
+        prediction = data["prediction"]
+
+        # Display prediction probabilities
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.plotly_chart(
+                create_probability_bar_chart(probabilities), use_container_width=True
+            )
+
+        with col2:
+            st.plotly_chart(
+                create_gauge_chart(probabilities["1"]), use_container_width=True
+            )
+
+        # Display prediction result
+        prediction_text = "Successful" if prediction == 1 else "Unsuccessful"
+        st.markdown(f"### Prediction: **{prediction_text}**")
+        st.markdown(
+            f"Confidence: **{max(probabilities['0'], probabilities['1'])*100:.2f}%**"
         )
 
-        # Handle the response
-        if response.status_code == 200:
-            st.success("Request Successful!")
-            response_data = response.json()  # Get the JSON response
-
-            st.subheader("Response Visualization")
-
-            # Display response
-            if isinstance(response_data, list):
-                st.write("Table View of the Response:")
-                st.table(response_data)
-            elif isinstance(response_data, dict):
-                st.write("Key-Value View of the Response:")
-                st.json(response_data)
-
-            # If there's numeric data, visualize it
-            numeric_data = {
-                k: v for k, v in response_data.items() if isinstance(v, (int, float))
-            }
-            if numeric_data:
-                fig = px.bar(
-                    x=list(numeric_data.keys()),
-                    y=list(numeric_data.values()),
-                    labels={"x": "Keys", "y": "Values"},
-                    title="Bar Chart of Numeric Data in Response",
-                )
-                st.plotly_chart(fig)
-
-            # Example for nested data (adjust key as needed)
-            if "nested_key" in response_data:
-                nested_data = response_data["nested_key"]
-                st.write("Nested Data Example:")
-                st.json(nested_data)
-        else:
-            st.error(f"Request Failed! Status Code: {response.status_code}")
-            st.text(response.text)  # Show error message
-    except Exception as e:
-        st.error(f"An error occurred: {e}")
+    else:
+        st.error(f"Request Failed! Status Code: {response_data.status_code}")
     # Radar Chart for Classification Metrics
 # st.header("Radar Chart of Classification Metrics")
 # # Prepare data for radar chart
