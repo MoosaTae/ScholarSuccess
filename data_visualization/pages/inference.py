@@ -29,13 +29,20 @@ if "ref_count" not in st.session_state:
     st.session_state.ref_count = 0
 
 
-def request_inference(title, abstract, ref_count):
+def request_inference(title, abstract, ref_count, mock=False):
+    if mock:
+        return {
+            "success": True,
+            "data": {
+                "probability": {"0": 0.2, "1": 0.8},
+                "prediction": 1,
+            },
+        }
     payload = {
         "title": title,
         "abstract": abstract,
         "ref_count": ref_count,
     }
-    print(payload)
     try:
         response = requests.post(
             url,
@@ -129,7 +136,7 @@ st.session_state.ref_count = ref_count
 
 # Make the POST request on button click
 if st.button("Predict"):
-    response_data = request_inference(title, abstract, ref_count)
+    response_data = request_inference(title, abstract, ref_count, mock=True)
 
     st.subheader("Response Visualization")
 

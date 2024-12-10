@@ -3,28 +3,45 @@ import plotly.express as px
 import plotly.graph_objects as go
 import json
 import numpy as np
+import requests
+
+url = "http://localhost:8000/report_training"
 
 
-def load_data():
-    # Load JSON data
+def fetch_report_training_data(mock=False):
+    if mock:
+        try:
+            with open("response_1733462178691.json", "r") as file:
+                data = json.load(file)
+            return {"success": True, "data": data}
+        except FileNotFoundError:
+            return {
+                "success": False,
+                "message": "JSON file not found. Please ensure 'response_1733462178691.json' exists.",
+            }
     try:
-        with open("response_1733462178691.json", "r") as file:
-            data = json.load(file)
-    except FileNotFoundError:
-        st.error(
-            "JSON file not found. Please ensure 'response_1733462178691.json' exists."
-        )
-        st.stop()
+        response = requests.get(url)
+        response.raise_for_status()
+        if response.status_code == 200:
+            return {"success": True, "data": response.json()}
 
-    # Extract data from JSON
-    return (
-        data["classification_report"],
-        np.array(data["confusion_matrix"]),
-        data["feature_importance"],
-    )
+    except requests.exceptions.RequestException as e:
+        print(e)
+        return {
+            "success": False,
+            "message": str(e),
+            "status_code": response.status_code,
+        }
 
 
-classification_report, confusion_matrix, feature_importance = load_data()
+data = fetch_report_training_data()
+if not data["success"]:
+    st.error(f"An error occurred: {data['message']}")
+    st.stop()
+classification_report = data["data"]["classification_report"]
+confusion_matrix = np.array(data["data"]["confusion_matrix"])
+feature_importance = data["data"]["feature_importance"]
+
 st.title("Scholar Success Rate Prediction - Data Visualization")
 
 # Classification Report Visualization
