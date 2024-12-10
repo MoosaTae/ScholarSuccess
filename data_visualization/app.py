@@ -2,6 +2,9 @@ import json
 import os
 
 import streamlit as st
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # print welcome to homepage
 st.title("Welcome to ScholarSuccess 🔥🔥🔥🔥🔥")

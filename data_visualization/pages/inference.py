@@ -7,6 +7,27 @@ import requests
 
 url = "http://localhost:8000/predict"
 
+EXAMPLES = {
+    "Example 1: Chemistry Research": {
+        "title": "Lactide Lactone Chain Shuttling Copolymerization Mediated by an Aminobisphenolate Supported Aluminum Complex and Al(O iPr)3: Access to New Polylactide Based Block Copolymers",
+        "abstract": "The chain shuttling ring-opening copolymerization of l-lactide with ε-caprolactone has been achieved using two aluminum catalysts presenting different selectivities and benzyl alcohol as chain transfer agent. A newly synthesized aminobisphenolate supported aluminum complex affords the synthesis of lactone rich poly(l-lactide-co-lactone) statistical copolymeric blocks, while Al(OiPr)3 produces semicrystalline poly(l-lactide) rich blocks.",
+        "ref_count": 26,
+    },
+    "Example 2: Computer Conference": {
+        "title": "0.01 Cent per Second: Developing a Cloud-based Cost-effective Audio Transcription System for an Online Video Learning Platform",
+        "abstract": "Using automatic speech recognition (ASR) to transcribe videos in an online video learning platform can benefit learners in multiple ways. However, existing speech-to-text APIs can be costly to use, especially for long lecture videos commonly found in such platform. In this work, we developed a cloud-based ASR system that is cost-optimized for the workload of online learning platforms. We characterized such workload and applied a combination of techniques from system architecture, including: (1) serverless, (2) preemptible instance, and (3) batching and audio transcription optimization, including: (1) audio segmentation, (2) cost-based segment merging, and (3) locally hosted transcription model. All of which work together to provide a low transcription cost per minute of audio. We experimented and calculated the processing cost, time, and accuracy and showed that our system offers accuracy on par with existing speech-to-text services at a significantly lower cost. We have also integrated this system into an online video learning platform.",
+        "ref_count": 15,
+    },
+}
+
+
+if "title" not in st.session_state:
+    st.session_state.title = ""
+if "abstract" not in st.session_state:
+    st.session_state.abstract = ""
+if "ref_count" not in st.session_state:
+    st.session_state.ref_count = 0
+
 
 def request_inference(title, abstract, ref_count):
     payload = {
@@ -14,6 +35,7 @@ def request_inference(title, abstract, ref_count):
         "abstract": abstract,
         "ref_count": ref_count,
     }
+    print(payload)
     try:
         response = requests.post(
             url,
@@ -82,11 +104,27 @@ def create_gauge_chart(probability):
 
 st.title("Scholar Success Rate Prediction - API Request")
 
+st.subheader("Try an Example")
+example_buttons = st.columns(len(EXAMPLES))
+
+for i, (name, data) in enumerate(EXAMPLES.items()):
+    if example_buttons[i].button(f"Load {name}"):
+        # selected_example = data
+        st.session_state.title = data["title"]
+        st.session_state.abstract = data["abstract"]
+        st.session_state.ref_count = data["ref_count"]
+
+
 # Input Fields for API Request
 st.subheader("Input Parameters")
-title = st.text_input("Title")
-abstract = st.text_area("Abstract")
-ref_count = st.number_input("Reference Count", step=1)
+title = st.text_input("Title", value=st.session_state.title)
+abstract = st.text_area("Abstract", value=st.session_state.abstract)
+ref_count = st.number_input("Reference Count", value=st.session_state.ref_count, step=1)
+
+# Update session state based on input changes
+st.session_state.title = title
+st.session_state.abstract = abstract
+st.session_state.ref_count = ref_count
 
 
 # Make the POST request on button click
@@ -124,42 +162,3 @@ if st.button("Predict"):
 
     else:
         st.error(f"Request Failed! Status Code: {response_data.status_code}")
-    # Radar Chart for Classification Metrics
-# st.header("Radar Chart of Classification Metrics")
-# # Prepare data for radar chart
-# classes = [
-#     cls for cls in classification_report if isinstance(classification_report[cls], dict)
-# ]
-# metrics = ["precision", "recall", "f1-score"]
-# # Create a DataFrame from the classification report for easy manipulation
-# radar_data = []
-# for cls in classes:
-#     radar_data.append(
-#         {
-#             "Class": cls,
-#             "Precision": classification_report[cls].get("precision", 0),
-#             "Recall": classification_report[cls].get("recall", 0),
-#             "F1-score": classification_report[cls].get("f1-score", 0),
-#         }
-#     )
-# radar_df = pd.DataFrame(radar_data)
-
-# # Radar chart requires repeating the first metric to close the circle
-# categories = metrics
-# fig = go.Figure()
-# for i, row in radar_df.iterrows():
-#     fig.add_trace(
-#         go.Scatterpolar(
-#             r=[row["Precision"], row["Recall"], row["F1-score"], row["Precision"]],
-#             theta=categories + [categories[0]],
-#             fill="toself",
-#             name=row["Class"],
-#         )
-#     )
-
-# fig.update_layout(
-#     polar=dict(radialaxis=dict(visible=True, range=[0, 1])),
-#     showlegend=True,
-#     title="Radar Chart of Classification Metrics",
-# )
-# st.plotly_chart(fig)
