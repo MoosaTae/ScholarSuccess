@@ -17,6 +17,7 @@ REPORT_TRAINING_PATH = "model/training_report.json"
 
 model_name = "allenai/scibert_scivocab_uncased"
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"using {device}")
 tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=True)
 model = AutoModel.from_pretrained(
     model_name, device_map=device, torch_dtype=torch.float16
