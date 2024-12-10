@@ -15,10 +15,8 @@ huggingface-hub
 humanfriendly
 idna
 itsdangerous
-Jinja2
 MarkupSafe
 mpmath
-networkx
 numpy
 onnxruntime
 packaging
