@@ -161,3 +161,7 @@ cython_debug/
 
 # ignore output directory
 **/output
+AutogluonModels/
+.ipynb_checkpoints/
+catboost_info/
+data/**

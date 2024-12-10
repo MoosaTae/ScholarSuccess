@@ -1,1 +1,0 @@
-#cookie lifetime is 10minutes
