@@ -164,11 +164,6 @@ st.set_page_config(page_title="Scholar Success Prediction Analysis", layout="wid
 
 st.title("Scholar Success Rate Prediction - Data Visualization")
 
-# Fetch and process data
-data = fetch_report_training_data()
-if not data["success"]:
-    st.error(f"An error occurred: {data['message']}")
-    st.stop()
 
 classification_report = data["data"]["classification_report"]
 confusion_matrix = np.array(data["data"]["confusion_matrix"])

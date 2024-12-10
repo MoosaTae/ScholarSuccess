@@ -136,7 +136,7 @@ st.session_state.ref_count = ref_count
 
 # Make the POST request on button click
 if st.button("Predict"):
-    response_data = request_inference(title, abstract, ref_count, mock=True)
+    response_data = request_inference(title, abstract, ref_count)
 
     st.subheader("Response Visualization")
 
