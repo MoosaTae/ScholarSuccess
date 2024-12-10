@@ -11,18 +11,14 @@ from pyvis.network import Network
 from streamlit.components.v1 import html
 
 st.title("Scopus - Data Insight from Cassandra")
+CASANDRA_HOST = os.getenv("DB_HOST", "127.0.0.1")
+KEYSPACE = os.getenv("KEYSPACE", "scopus_data")
+AUTH_PROVIDER = os.getenv("AUTH_PROVIDER", None)
 
-# Adjust these settings as per your cluster configuration
-# For example, if you have username/password, use PlainTextAuthProvider(username='user', password='pass')
-auth_provider = None  # If authentication is not needed, otherwise: PlainTextAuthProvider(username='cassandra', password='cassandra')
-cluster = Cluster(
-    ["127.0.0.1"], auth_provider=auth_provider
-)  # Replace '127.0.0.1' with your Cassandra node IP
-session = cluster.connect("scopus_data")  # Keyspace name
+cluster = Cluster([CASANDRA_HOST], auth_provider=AUTH_PROVIDER)
+session = cluster.connect(KEYSPACE)
 
 st.subheader("Cassandra Data Retrieval")
-# Example Query: Get a limited set of records
-# For large datasets, consider pagination or filters
 rows = session.execute("SELECT * FROM records LIMIT 5000;")
 
 # Convert to DataFrame
@@ -84,7 +80,6 @@ else:
     st.info("Not enough data to visualize a treemap of subject areas.")
 
 st.subheader("Distribution of Document Types")
-print(df.columns)
 if "document_type" in df.columns:
     doc_type_counts = df["document_type"].value_counts().reset_index()
     doc_type_counts.columns = ["document_type", "count"]
