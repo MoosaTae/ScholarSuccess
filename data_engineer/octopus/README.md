@@ -23,6 +23,7 @@ Octopus Analysis is a data analysis project designed to process and analyze Scop
    ```
       |-- data
       |   |-- scopus
+      |   |   `-- 2023
       |   `-- scrape
    ```
 4. **Optional ( If you want to develop on local)**
