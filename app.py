@@ -41,17 +41,10 @@ def process(texts, max_length=512):
         truncation=True,
         max_length=max_length,
     )
-    if torch.cuda.is_available():
-        inputs = {key: val.to(model.device) for key, val in inputs.items()}
-        with torch.no_grad():
-            outputs = model(**inputs)
+    with torch.no_grad():
+        outputs = model(**inputs)
 
-        last_hidden_state = outputs.last_hidden_state.detach().cpu().numpy()
-    else:
-        with torch.no_grad():
-            outputs = model(**inputs)
-
-        last_hidden_state = outputs.last_hidden_state.numpy()
+    last_hidden_state = outputs.last_hidden_state.numpy()
     # A : (batch_size, sequence_length, hidden_size)
     return last_hidden_state.mean(axis=1)
 
