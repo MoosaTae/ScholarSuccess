@@ -18,6 +18,7 @@ Octopus Analysis is a data analysis project designed to process and analyze Scop
    ```bash
    pip install -r requirements.txt
    ```
+   *Noted: don't forget to install java for pyspark [download](https://www.java.com/download/ie_manual.jsp)*
 3. **Add data**
   Copy paste your `scopus` data folder into the `/data/` directory
    ```
