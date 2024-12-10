@@ -318,61 +318,57 @@ elif section == "Data Insight from Cassandra":
         st.plotly_chart(fig)
     else:
         st.info("Required columns (publication_date, source_type) not available.")
-    
+
     st.subheader("Network Graph of Subject Areas and Document Types")
-if 'main_subject_area' in df.columns and 'document_type' in df.columns:
-    # Create pairs (main_subject_area, document_type) from each record
-    pairs = df[['main_subject_area', 'document_type']].dropna()
+    if 'main_subject_area' in df.columns and 'document_type' in df.columns:
+        # Create pairs (main_subject_area, document_type) from each record
+        pairs = df[['main_subject_area', 'document_type']].dropna()
 
-    if not pairs.empty:
-        # Build network
-        net = Network(notebook=True, height='600px', width='100%', bgcolor='#222222', font_color='white')
-        
-        # Add nodes for unique subject areas and document types
-        subject_areas = pairs['main_subject_area'].unique()
-        doc_types = pairs['document_type'].unique()
+        if not pairs.empty:
+            # Build network
+            net = Network(notebook=True, height='600px', width='100%', bgcolor='#222222', font_color='white')
+            
+            # Add nodes for unique subject areas and document types
+            subject_areas = pairs['main_subject_area'].unique()
+            doc_types = pairs['document_type'].unique()
 
-        # Add subject area nodes (color them differently)
-        for sa in subject_areas:
-            net.add_node(sa, label=sa, title=sa, color='#1f78b4')
-        
-        # Add document type nodes
-        for dt in doc_types:
-            net.add_node(dt, label=dt, title=dt, color='#33a02c')
-        
-        # Add edges for each pair
-        for i, row in pairs.iterrows():
-            net.add_edge(row['main_subject_area'], row['document_type'])
+            # Add subject area nodes (color them differently)
+            for sa in subject_areas:
+                net.add_node(sa, label=sa, title=sa, color='#1f78b4')
+            
+            # Add document type nodes
+            for dt in doc_types:
+                net.add_node(dt, label=dt, title=dt, color='#33a02c')
+            
+            # Add edges for each pair
+            for i, row in pairs.iterrows():
+                net.add_edge(row['main_subject_area'], row['document_type'])
 
-        # Set network options
-        net.set_options("""
-        var options = {
-          "nodes": {
-            "shape": "dot",
-            "size": 10
-          },
-          "edges": {
-            "smooth": false
-          },
-          "physics": {
-            "enabled": true,
-            "barnesHut": {
-              "gravitationalConstant": -8000
+            # Set network options
+            net.set_options("""
+            var options = {
+            "nodes": {
+                "shape": "dot",
+                "size": 10
+            },
+            "edges": {
+                "smooth": false
+            },
+            "physics": {
+                "enabled": true,
+                "barnesHut": {
+                "gravitationalConstant": -8000
+                }
             }
-          }
-        }
-        """)
+            }
+            """)
 
-        # Generate and display HTML
-        with tempfile.NamedTemporaryFile(delete=False, suffix='.html', mode='w', encoding='utf-8') as tmp:
-            net.save_graph(tmp.name)
-            with open(tmp.name, 'r', encoding='utf-8') as f:
-                html_content = f.read()
-            st.components.v1.html(html_content, height=600)
-            os.unlink(tmp.name)  # Clean up
-    else:
-        st.info("No pairs of subject_area and document_type available for the network.")
-
-    
-
-
+            # Generate and display HTML
+            with tempfile.NamedTemporaryFile(delete=False, suffix='.html', mode='w', encoding='utf-8') as tmp:
+                net.save_graph(tmp.name)
+                with open(tmp.name, 'r', encoding='utf-8') as f:
+                    html_content = f.read()
+                st.components.v1.html(html_content, height=600)
+                os.unlink(tmp.name)  # Clean up
+        else:
+            st.info("No pairs of subject_area and document_type available for the network.")
