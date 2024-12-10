@@ -42,59 +42,139 @@ classification_report = data["data"]["classification_report"]
 confusion_matrix = np.array(data["data"]["confusion_matrix"])
 feature_importance = data["data"]["feature_importance"]
 
-st.title("Scholar Success Rate Prediction - Data Visualization")
 
-# Classification Report Visualization
-st.header("Classification Report")
-classes = [
-    cls for cls in classification_report if isinstance(classification_report[cls], dict)
-]
-metrics = ["precision", "recall", "f1-score"]
+def create_metrics_visualization(classification_report):
+    """Create and display classification metrics visualization."""
+    st.header("Model Performance Metrics")
 
-for metric in metrics:
-    values = [classification_report[cls].get(metric, 0) for cls in classes]
+    # Calculate overall accuracy
+    accuracy = classification_report.get("accuracy", 0) * 100
+    st.metric("Overall Model Accuracy", f"{accuracy:.1f}%")
+
+    # Prepare data for visualization
+    classes = ["False", "True"]  # Non-successful and Successful cases
+    metrics = ["precision", "recall", "f1-score"]
+
+    # Create a combined metrics chart
+    metrics_data = []
+    for cls in classes:
+        for metric in metrics:
+            metrics_data.append(
+                {
+                    "Class": "Successful" if cls == "True" else "Not Successful",
+                    "Metric": metric.capitalize(),
+                    "Value": classification_report[cls][metric] * 100,
+                }
+            )
+
     fig = px.bar(
-        x=classes,
-        y=values,
-        labels={"x": "Class", "y": metric.capitalize()},
-        title=f"{metric.capitalize()} per Class",
-        color=values,
-        color_continuous_scale="Viridis",
+        metrics_data,
+        x="Class",
+        y="Value",
+        color="Metric",
+        barmode="group",
+        labels={"Value": "Percentage (%)", "Class": "Prediction Class"},
+        title="Precision, Recall, and F1-Score by Class",
     )
     st.plotly_chart(fig)
 
-# Confusion Matrix Visualization
-st.header("Confusion Matrix")
-fig = go.Figure(
-    data=go.Heatmap(
-        z=confusion_matrix,
-        x=["Predicted: False", "Predicted: True"],
-        y=["True: False", "True: True"],
-        colorscale="Blues",
-        hoverongaps=False,
-    )
-)
-fig.update_layout(
-    title="Confusion Matrix",
-    xaxis_title="Predicted Label",
-    yaxis_title="True Label",
-)
-st.plotly_chart(fig)
+    # Add metric explanations
+    st.subheader("Understanding the Metrics")
+    st.markdown(f"""
+    - **Precision**: 
+        - When predicting successful scholars: {classification_report['True']['precision']*100:.1f}% accurate
+        - When predicting non-successful scholars: {classification_report['False']['precision']*100:.1f}% accurate
+    
+    - **Recall**: 
+        - Correctly identifies {classification_report['True']['recall']*100:.1f}% of actually successful scholars
+        - Correctly identifies {classification_report['False']['recall']*100:.1f}% of non-successful scholars
+    
+    - **Dataset Distribution**: 
+        - Total scholars: {int(classification_report['True']['support'] + classification_report['False']['support'])}
+        - Successful: {int(classification_report['True']['support'])} ({classification_report['True']['support']/(classification_report['True']['support'] + classification_report['False']['support'])*100:.1f}%)
+        - Non-successful: {int(classification_report['False']['support'])}
+    """)
 
-# Feature Importance Visualization
-st.header("Feature Importance")
-sorted_features = sorted(feature_importance.items(), key=lambda x: x[1], reverse=True)[
-    :10
-]
-feature_names, importances = zip(*sorted_features)
-fig = px.bar(
-    x=importances,
-    y=feature_names,
-    orientation="h",
-    labels={"x": "Importance", "y": "Feature"},
-    title="Top 10 Features by Importance",
-    color=importances,
-    color_continuous_scale="Aggrnyl",
-)
-fig.update_layout(yaxis=dict(autorange="reversed"))
-st.plotly_chart(fig)
+
+def create_confusion_matrix(confusion_matrix):
+    """Create and display enhanced confusion matrix visualization."""
+    st.header("Confusion Matrix")
+
+    # Calculate percentages for annotations
+    total = confusion_matrix.sum()
+    percentages = confusion_matrix / total * 100
+
+    fig = go.Figure(
+        data=go.Heatmap(
+            z=confusion_matrix,
+            x=["Predicted: Not Successful", "Predicted: Successful"],
+            y=["Actually: Not Successful", "Actually: Successful"],
+            colorscale="Blues",
+            text=[
+                [f"{val:,d}<br>({pct:.1f}%)" for val, pct in zip(row, pct_row)]
+                for row, pct_row in zip(confusion_matrix, percentages)
+            ],
+            texttemplate="%{text}",
+            textfont={"size": 14},
+            hoverongaps=False,
+        )
+    )
+
+    fig.update_layout(
+        title="Confusion Matrix (Count and Percentage)",
+        xaxis_title="Predicted Outcome",
+        yaxis_title="Actual Outcome",
+    )
+    st.plotly_chart(fig)
+
+
+def create_feature_importance(feature_importance):
+    """Create and display enhanced feature importance visualization."""
+    st.header("Top Predictive Features")
+
+    # Sort and prepare feature importance data
+    sorted_features = sorted(
+        feature_importance.items(), key=lambda x: x[1], reverse=True
+    )[:10]
+    feature_names, importances = zip(*sorted_features)
+
+    # Clean up feature names for better readability
+    clean_names = [name.replace("_", " ").title() for name in feature_names]
+
+    fig = px.bar(
+        x=importances,
+        y=clean_names,
+        orientation="h",
+        labels={"x": "Relative Importance", "y": "Feature"},
+        title="Top 10 Most Important Features for Prediction",
+        color=importances,
+        color_continuous_scale="Aggrnyl",
+    )
+
+    fig.update_layout(
+        yaxis=dict(autorange="reversed"),
+        showlegend=False,
+    )
+
+    st.plotly_chart(fig)
+
+
+# Set up page configuration
+st.set_page_config(page_title="Scholar Success Prediction Analysis", layout="wide")
+
+st.title("Scholar Success Rate Prediction - Data Visualization")
+
+# Fetch and process data
+data = fetch_report_training_data()
+if not data["success"]:
+    st.error(f"An error occurred: {data['message']}")
+    st.stop()
+
+classification_report = data["data"]["classification_report"]
+confusion_matrix = np.array(data["data"]["confusion_matrix"])
+feature_importance = data["data"]["feature_importance"]
+
+# Create visualizations
+create_metrics_visualization(classification_report)
+create_confusion_matrix(confusion_matrix)
+create_feature_importance(feature_importance)
