@@ -1,18 +1,20 @@
 import os
+import glob
+from pathlib import Path
 import orjson as json
 from cassandra.cluster import Cluster
 from pyspark.sql import SparkSession
-from src.ingestion.scrape_loader import ScopusScraperLoader
-from src.spark.scrape_transformer import ScopusScraperTransformer
+from pyspark.sql.types import StructType, StructField, StringType, IntegerType, ArrayType, BooleanType
+from pyspark.sql.functions import col, when, lit, coalesce
 from src.utils.logger import setup_logger
 
 logger = setup_logger(__name__)
 
-class ScopusScraperProcessor:
+class ScrapeProcessor:
     def __init__(self):
-        # Initialize Spark session with configurations
         db_host = os.getenv("DB_HOST", "localhost")
         db_port = os.getenv("DB_PORT", "9042")
+        
         configs = {
             "spark.jars.packages": "com.datastax.spark:spark-cassandra-connector_2.12:3.4.0",
             "spark.cassandra.connection.host": db_host,
@@ -23,23 +25,20 @@ class ScopusScraperProcessor:
             "spark.default.parallelism": "100",
         }
         
-        self.spark = SparkSession.builder.appName("ScopusScraperAnalysis")
-
+        self.spark = SparkSession.builder.appName("ScrapeAnalysis")
         for key, value in configs.items():
             self.spark = self.spark.config(key, value)
         self.spark = self.spark.getOrCreate()
-            
-        # Initialize Cassandra connection and verify keyspace/table
+
+        # Create Cassandra keyspace and table (using same schema as ScopusProcessor)
         cluster = Cluster([db_host])
         session = cluster.connect()
         
-        # Ensure keyspace exists (reusing same keyspace as original processor)
         session.execute("""
             CREATE KEYSPACE IF NOT EXISTS scopus_data
             WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1'}
         """)
 
-        # Verify table exists (using same table as original processor)
         session.execute("""
             CREATE TABLE IF NOT EXISTS scopus_data.records (
                 doi text PRIMARY KEY,
@@ -73,81 +72,163 @@ class ScopusScraperProcessor:
 
         session.shutdown()
 
-        # Initialize components
-        self.transformer = ScopusScraperTransformer()
-        self.chunk_size = 1000
-        self.loader = ScopusScraperLoader(chunk_size=self.chunk_size)
+        # Define schema for scrape data
+        self.scrape_schema = StructType([
+            StructField("prism:doi", StringType(), True),
+            StructField("eid", StringType(), True),
+            StructField("dc:title", StringType(), True),
+            StructField("dc:creator", StringType(), True),
+            StructField("prism:publicationName", StringType(), True),
+            StructField("prism:coverDate", StringType(), True),
+            StructField("citedby-count", StringType(), True),
+            StructField("openaccessFlag", BooleanType(), True),
+            StructField("abstract", StringType(), True),
+            StructField("subtypeDescription", StringType(), True),
+            StructField("prism:aggregationType", StringType(), True),
+            StructField("source-id", StringType(), True),
+            StructField("prism:issn", StringType(), True),
+            StructField("author", ArrayType(StructType([
+                StructField("ce:given-name", StringType(), True),
+                StructField("ce:surname", StringType(), True),
+                StructField("author-url", StringType(), True)
+            ])), True),
+            StructField("affiliation", ArrayType(StructType([
+                StructField("affilname", StringType(), True)
+            ])), True)
+        ])
 
-    def process_chunk(self, chunk):
-        """Process a chunk of scraped Scopus records"""
+        # Define schema for reference count data
+        self.refcount_schema = StructType([
+            StructField("EID", StringType(), True),
+            StructField("DOI", StringType(), True),
+            StructField("References", IntegerType(), True)
+        ])
+
+    def read_json_files(self, folder_path, schema):
+        """Read all JSON files in a folder and return a DataFrame"""
+        all_records = []
+        
+        json_files = glob.glob(os.path.join(folder_path, "*.json"))
+        for file_path in json_files:
+            try:
+                with open(file_path, 'rb') as f:
+                    content = f.read()
+                    if content.strip().endswith(b','):
+                        content = content.strip()[:-1]
+                    if not content.strip().startswith(b'['):
+                        content = b'[' + content + b']'
+                    
+                    records = json.loads(content)
+                    all_records.extend(records)
+            
+            except Exception as e:
+                logger.error(f"Error reading file {file_path}: {str(e)}")
+                continue
+        
+        if not all_records:
+            return None
+            
+        json_strings = [json.dumps(record).decode() for record in all_records]
+        rdd = self.spark.sparkContext.parallelize(json_strings)
+        return self.spark.read.schema(schema).json(rdd)
+
+    def process_year(self, year, scrape_base_path, refcount_base_path):
+        """Process data for a specific year"""
         try:
-            # Convert records to JSON strings
-            json_strings = [json.dumps(record).decode() for record in chunk]
+            # Read scrape data
+            scrape_folder = os.path.join(scrape_base_path, str(year))
+            scrape_df = self.read_json_files(scrape_folder, self.scrape_schema)
             
-            # Create RDD from JSON strings
-            rdd = self.spark.sparkContext.parallelize(json_strings)
+            if scrape_df is None:
+                logger.warning(f"No scrape data found for year {year}")
+                return
             
-            # Convert to DataFrame
-            df = self.spark.read.json(rdd)
+            # Read reference count data
+            refcount_file = os.path.join(refcount_base_path, f"{year}.json")
+            refcount_df = self.read_json_files(os.path.dirname(refcount_file), self.refcount_schema)
             
-            # Apply transformations
-            transformed_df = self.transformer.apply_all_transforms(df)
+            if refcount_df is None:
+                logger.warning(f"No reference count data found for year {year}")
+                refcount_df = self.spark.createDataFrame([], self.refcount_schema)
             
-            # Write to Cassandra (same table as original data)
+            # Join dataframes on DOI
+            joined_df = scrape_df.join(
+                refcount_df.select(
+                    col("DOI").alias("ref_doi"),
+                    col("References").alias("ref_count")
+                ),
+                col("prism:doi") == col("ref_doi"),
+                "left_outer"
+            )
+            
+            # Transform to match the records table schema
+            transformed_df = joined_df.select(
+                col("prism:doi").alias("doi"),
+                col("dc:title").alias("title"),
+                col("abstract"),
+                col("subtypeDescription").alias("document_type"),
+                col("prism:aggregationType").alias("source_type"),
+                col("prism:coverDate").alias("publication_date"),
+                col("prism:publicationName").alias("source_title"),
+                lit(None).cast(StringType()).alias("publisher"),
+                lit(None).cast(StringType()).alias("author_keywords"),
+                lit(None).cast(StringType()).alias("subject_code"),
+                lit(None).cast(StringType()).alias("subject_name"),
+                lit(None).cast(StringType()).alias("subject_abbrev"),
+                when(col("author").isNotNull(), 
+                     col("author").getItem(0).getField("ce:given-name"))
+                    .otherwise(None).alias("author_given_name"),
+                when(col("author").isNotNull(),
+                     col("author").getItem(0).getField("ce:surname"))
+                    .otherwise(None).alias("author_surname"),
+                when(col("author").isNotNull(),
+                     col("author").getItem(0).getField("author-url"))
+                    .otherwise(None).alias("author_url"),
+                when(col("affiliation").isNotNull(),
+                     col("affiliation").getItem(0).getField("affilname"))
+                    .otherwise(None).alias("author_affiliation"),
+                lit(None).cast(StringType()).alias("author_details"),
+                lit(None).cast(StringType()).alias("funding_details"),
+                coalesce(col("ref_count"), lit(0)).alias("ref_count"),
+                col("openaccessFlag").alias("open_access"),
+                when(col("affiliation").isNotNull(),
+                     col("affiliation").getItem(0).getField("affilname"))
+                    .otherwise(None).alias("affiliation"),
+                lit(None).cast(StringType()).alias("language"),
+                coalesce(col("citedby-count").cast("int"), lit(0)).alias("cited_by"),
+                lit(None).cast(StringType()).alias("status_state"),
+                lit(None).cast(StringType()).alias("delivered_date"),
+                lit(None).cast(StringType()).alias("subject_area")
+            )
+            
+            # Write to Cassandra
             transformed_df.write \
                 .format("org.apache.spark.sql.cassandra") \
                 .options(table="records", keyspace="scopus_data") \
                 .mode("append") \
                 .save()
 
-            # Clean up
             transformed_df.unpersist()
-            
-            logger.info(f"Successfully processed and wrote chunk of {len(chunk)} records to Cassandra")
-            
-        except Exception as e:
-            logger.error(f"Error processing chunk: {str(e)}")
-            # Log the first record for debugging - using str() instead of json.dumps with indent
-            if chunk:
-                logger.error(f"First record in failed chunk: {str(chunk[0])}")
-            raise
+            logger.info(f"Successfully processed year {year}")
 
-    def run(self):
-        """Run the complete processing pipeline"""
-        try:
-            logger.info("Starting scraped data processing pipeline...")
-            
-            # Validate directory structure before processing
-            if not self.loader.validate_directory_structure():
-                logger.warning("Some year directories are missing or empty")
-            
-            # Process data in chunks
-            for chunk in self.loader.process_data():
-                self.process_chunk(chunk)
-                
-            logger.info("Scraper pipeline completed successfully")
-            
-        except Exception as e:
-            logger.error(f"Pipeline error: {str(e)}")
-            raise
-            
-        finally:
-            self.spark.stop()
-
-    def run_single_year(self, year: int):
-        """Run the pipeline for a specific year"""
-        try:
-            logger.info(f"Starting scraped data processing for year {year}...")
-            
-            # Process data in chunks for specific year
-            for chunk in self.loader.process_data_for_year(year):
-                self.process_chunk(chunk)
-                
-            logger.info(f"Successfully completed processing for year {year}")
-            
         except Exception as e:
             logger.error(f"Error processing year {year}: {str(e)}")
             raise
+
+    def process_all_years(self, scrape_base_path, refcount_base_path, start_year=2013, end_year=2023):
+        """Process all years in the given range"""
+        try:
+            for year in range(start_year, end_year + 1):
+                logger.info(f"Processing year {year}")
+                self.process_year(year, scrape_base_path, refcount_base_path)
+                
+            logger.info("Completed processing all years")
             
-        finally:
+        except Exception as e:
+            logger.error(f"Error processing years: {str(e)}")
+            raise
+
+    def close(self):
+        """Clean up resources"""
+        if self.spark:
             self.spark.stop()
